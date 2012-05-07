@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = RevRise::VERSION
   s.authors     = ["Jonas Arnklint"]
   s.email       = ["jonas.a@revrise.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/arnklint/revrise-ruby"
   s.summary     = %q{Track events and gain insightful actionable metrics through RevRise}
   s.description = %q{Track events and gain insightful actionable metrics through RevRise}
 
