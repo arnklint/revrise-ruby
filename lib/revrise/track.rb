@@ -1,4 +1,4 @@
-module Fortnox
+module RevRise
   class Track < API
     class << self
       def create(attributes={})

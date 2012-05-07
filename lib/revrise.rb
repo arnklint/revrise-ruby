@@ -1,6 +1,6 @@
 require "revrise/version"
 require "revrise/api"
-require "fortnox/errors"
+require "revrise/errors"
 
 module RevRise
 end
