@@ -1,7 +1,6 @@
-require "fortnox"
+require "revrise"
 require "yaml"
 require "vcr"
-
 
 def fixtures(fixture)
   @@fixtures ||= load_fixtures
