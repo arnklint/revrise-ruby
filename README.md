@@ -1,4 +1,5 @@
-revrise-ruby
-============
+# RevRise Ruby API
 
-Official RevRise Ruby API Wrapper
+Tracking events serverside with Ruby and RevRise is as straight forward as a ninjas sword.
+
+
