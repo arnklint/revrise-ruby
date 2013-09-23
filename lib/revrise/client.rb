@@ -10,7 +10,8 @@ module RevRise
     API_SUBDOMAIN   = "api"
 
     DEFAULT_OPTIONS = {
-      host: 'revrise.com'
+      host: 'revrise.com',
+      use_ssl: true
     }
 
     attr_accessor :options
@@ -18,7 +19,7 @@ module RevRise
     def initialize( options={} )
       store(options)
 
-      if authentication_token.nil? ||user_email.nil?
+      if auth_token.nil? ||email.nil?
         raise ArgumentError, "Authentication token and email must be present" 
       end
     end
@@ -56,12 +57,24 @@ module RevRise
       end
     end
 
-    def authentication_token
-      @options[:authentication_token]
+    def auth_token
+      @options[:auth_token]
     end
 
-    def user_email
-      @options[:user_email]
+    def email
+      @options[:email]
+    end
+
+    def host 
+      @options[:host]
+    end
+
+    def use_ssl?
+      @options[:use_ssl]
+    end
+
+    def api_host
+      [API_SUBDOMAIN, host].join(".")
     end
 
     private
