@@ -6,6 +6,9 @@ require 'uri'
 
 module RevRise
   class Client
+    USER_AGENT      = "RevRise Ruby Wrapper #{VERSION}"
+    API_SUBDOMAIN   = "api"
+
     DEFAULT_OPTIONS = {
       host: 'revrise.com'
     }
@@ -13,9 +16,11 @@ module RevRise
     attr_accessor :options
 
     def initialize( options={} )
-      #@endpoint = "http://api.revrise.com/events/track?token=" + token
+      store(options)
 
-      #raise ArgumentError, "Authentication token and email must be present" if !
+      if authentication_token.nil? ||user_email.nil?
+        raise ArgumentError, "Authentication token and email must be present" 
+      end
     end
 
     def track( event_name, properties )
@@ -51,9 +56,17 @@ module RevRise
       end
     end
 
+    def authentication_token
+      @options[:authentication_token]
+    end
+
+    def user_email
+      @options[:user_email]
+    end
+
     private
 
-    def store_options(options={})
+    def store(options={})
       @options ||= DEFAULT_OPTIONS.dup
       @options.merge!(options)
     end
