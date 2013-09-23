@@ -19,7 +19,7 @@ module RevRise
     def initialize( options={} )
       store(options)
 
-      if auth_token.nil? ||email.nil?
+      if auth_token.nil? ||auth_email.nil?
         raise ArgumentError, "Authentication token and email must be present" 
       end
     end
@@ -61,8 +61,8 @@ module RevRise
       @options[:auth_token]
     end
 
-    def email
-      @options[:email]
+    def auth_email
+      @options[:auth_email]
     end
 
     def host 

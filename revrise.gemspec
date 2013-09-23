@@ -15,6 +15,8 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency('bundler', '~> 1.0')
 
+  s.add_runtime_dependency('httparty', "0.11.0")
+
   s.files         = Dir.glob("lib/**/*") + %w(README.md)
   s.require_paths = ["lib"]
 end
