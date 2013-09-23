@@ -6,6 +6,8 @@ require 'uri'
 
 module RevRise
   class Client
+    include HTTParty
+
     USER_AGENT      = "RevRise Ruby Wrapper #{VERSION}"
     API_SUBDOMAIN   = "api"
 
