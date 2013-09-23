@@ -1,6 +1,9 @@
 require 'uri'
 
+require 'httparty'
+
 require "revrise/client"
+require "revrise/errors"
 require "revrise/version"
 
 module RevRise
