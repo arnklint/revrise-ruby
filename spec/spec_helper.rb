@@ -1,25 +1,23 @@
 require "revrise"
-require "yaml"
-require "vcr"
+require "webmock/rspec"
 
-def fixtures(fixture)
-  @@fixtures ||= load_fixtures
-  @@fixtures[fixture]
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :should
+  end
 end
 
-def load_fixtures
-  fixtures = {}
-
-  Dir['spec/fixtures/*.yml'].each do |file|
-    name = File.basename(file, File.extname(file)).to_sym
-    fixtures[name] = YAML::load(File.open(file).read)
+module LastRequest
+  def last_request
+    @last_request
   end
 
-  fixtures
+  def last_request=(request_signature)
+    @last_request = request_signature
+  end
 end
 
-VCR.config do |c|
-  c.default_cassette_options = {:match_requests_on => [:method, :uri, :body]}
-  c.cassette_library_dir = 'spec/fixtures/cassettes'
-  c.stub_with :webmock
+WebMock.extend(LastRequest)
+WebMock.after_request do |request_signature, response|
+  WebMock.last_request = request_signature
 end
