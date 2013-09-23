@@ -14,6 +14,8 @@ module RevRise
       use_ssl: true
     }
 
+    headers({"User-Agent" => USER_AGENT})
+
     attr_accessor :options
 
     def initialize( options={} )
