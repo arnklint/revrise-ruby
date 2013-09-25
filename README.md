@@ -20,11 +20,8 @@ then
 
 Initialize a RevRise::Base object with your project token, then basically call the ´track´ method of that object.
 
-    r = RevRise::Base.new("#{PROJECT_TOKEN}")
-    r.track 'event-name', {
-      :prop1 => "First",
-      :yo_mo => "Second value"
-    }
+    r = RevRise.new(:auth_token => "MY_TOKEN", :auth_email => "MY_EMAIL")
+    projects = r.get('/core/projects')
     
 For programming specific questions e-mail jonas.arnklint@revrise.com, for more help and documentation regarding Revrise, visit the [Form Analytics](http://revrise.com "RevRise Form Analytics") section.
 
