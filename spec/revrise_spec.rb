@@ -33,8 +33,8 @@ describe RevRise do
       end
     end
 
-    # , :delete, :head
-    [:get].each do |method|
+    # :head
+    [:get, :delete].each do |method|
       describe "##{method}" do
         it "raises an error if request not successful" do
           stub_request(method, "https://api.revrise.com/core/projects").

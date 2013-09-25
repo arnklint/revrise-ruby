@@ -34,6 +34,12 @@ module RevRise
       }
     end
 
+    def delete(path, query={}, options={})
+      handle_response {
+        self.class.delete(*build_query(path, options.merge(:query => query)))
+      }
+    end
+
     def auth_token
       @options[:auth_token]
     end
