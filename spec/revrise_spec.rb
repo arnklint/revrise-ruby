@@ -44,6 +44,11 @@ describe RevRise do
           lambda {subject.send(method, '/core/projects')}.should raise_error(RevRise::ResponseError)
         end
 
+        it "accepts urls as path" do
+          RevRise::Client.should receive(method).with('https://api.revrise.com/core/projects/123', {:query => {:format => "json", :auth_token => 'x', :auth_email => 'j@revrise.com'}})
+          subject.send(method, 'https://api.revrise.com/core/projects/123')
+        end
+
         it "wraps the response object in a hash" do
           stub_request(method, "https://api.revrise.com/core/projects/123").
             with(:query => {:format => "json", :auth_token => "x", :auth_email => "j@revrise.com"}).
