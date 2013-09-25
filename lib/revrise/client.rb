@@ -28,37 +28,10 @@ module RevRise
       end
     end
 
-    def track( event_name, properties )
-      event = {
-        :name => event_name,
-        :properties => properties
-      }.to_json
-
-      data = Base64.encode64(event).gsub(/\n/, '')
-
-      url = "#{@endpoint}&data=#{data}"
-      uri = URI(url)
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      size = 1000
-      headers = {
-        'Range' => "bytes=#{size}-"
+    def get(path, query={}, options={})
+      handle_response {
+        self.class.get(*build_query(path, options.merge(:query => query)))
       }
-
-      response = begin
-                   http.get(uri.to_s, headers)
-                 rescue *HTTPError => e
-                   #log :error, "Unable to contact the RevRise server. HTTP Error=#{e}"
-                   nil
-                 end
-
-      case response
-      when Net::HTTPSuccess then
-        #log :info, "Success: #{response.class}", response
-      else
-        #log :error, "Failure: #{response.class}", response
-        puts "Unable to reach RevRise API. Check status"
-      end
     end
 
     def auth_token
@@ -69,7 +42,7 @@ module RevRise
       @options[:auth_email]
     end
 
-    def host 
+    def host
       @options[:host]
     end
 
@@ -87,6 +60,32 @@ module RevRise
       @options ||= DEFAULT_OPTIONS.dup
       @options.merge!(options)
     end
-  end
 
+    def handle_response(&block)
+      response = block.call
+      if response && !response.success?
+        raise ResponseError.new(response)
+      elsif response.is_a?(Hash)
+        HashResponseWrapper.new(response)
+      elsif response.is_a?(Array)
+        ArrayResponseWrapper.new(response)
+      elsif response && response.success?
+        response
+      end
+    end
+
+    def build_query(path_or_uri, options={}, body_or_query=:query)
+      uri = URI.parse(path_or_uri)
+      path = uri.path
+      scheme = use_ssl? ? 'https' : 'http'
+      options = options.dup
+      options[body_or_query] ||= {}
+      options[body_or_query][:format] = "json"
+      options[body_or_query][:auth_token] = auth_token
+      options[body_or_query][:auth_email] = auth_email
+
+      ["#{scheme}://#{api_host}#{path}#{uri.query ? "?#{uri.query}" : ""}", options]
+
+    end
+  end
 end
