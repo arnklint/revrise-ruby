@@ -40,6 +40,12 @@ module RevRise
       }
     end
 
+    def head(path, query={}, options={})
+      handle_response {
+        self.class.head(*build_query(path, options.merge(:query => query)))
+      }
+    end
+
     def auth_token
       @options[:auth_token]
     end
