@@ -9,9 +9,9 @@ module RevRise
 
     def message
       error = response.parsed_response['error'] || response.parsed_response['errors']['error']
-      "HTTP status: #{response.code} #{STATUS_CODES[response.code]} Error: #{error}"
+      "HTTP status: #{response.code} #{STATUSES[response.code]} Error: #{error}"
     rescue
-      "HTTP status: #{response.code} #{STATUS_CODES[response.code]}"
+      "HTTP status: #{response.code} #{STATUSES[response.code]}"
     end
   end
 end

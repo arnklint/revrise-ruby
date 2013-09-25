@@ -36,6 +36,14 @@ describe RevRise do
     # , :delete, :head
     [:get].each do |method|
       describe "##{method}" do
+        it "raises an error if request not successful" do
+          stub_request(method, "https://api.revrise.com/core/projects").
+            with(:query => {:format => "json", :auth_token => "x", :auth_email => "j@revrise.com"}).
+            to_return(:status => 401, :body => "{'error': 'Yo not allowed'}")
+
+          lambda {subject.send(method, '/core/projects')}.should raise_error(RevRise::ResponseError)
+        end
+
         it "wraps the response object in a hash" do
           stub_request(method, "https://api.revrise.com/core/projects/123").
             with(:query => {:format => "json", :auth_token => "x", :auth_email => "j@revrise.com"}).
