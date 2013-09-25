@@ -74,8 +74,7 @@ describe RevRise do
       end
     end
 
-    #:put
-    [:post].each do |method|
+    [:post, :put].each do |method|
       describe "##{method}" do
 
         it "wraps the response object" do
