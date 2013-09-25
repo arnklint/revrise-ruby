@@ -73,5 +73,24 @@ describe RevRise do
         end
       end
     end
+
+    #:put
+    [:post].each do |method|
+      describe "##{method}" do
+
+        it "wraps the response object" do
+          stub_request(method, "https://api.revrise.com/core/projects/123").
+            to_return(:body => '{"name": "mah project"}', :headers => {:content_type => "application/json"})
+          subject.send(method, '/core/projects/123').should be_an_instance_of RevRise::HashResponseWrapper
+        end
+
+        it "wraps the response object with an array" do
+          stub_request(method, "https://api.revrise.com/core/projects").
+            to_return(:body => '[{"name": "mah project"}]', :headers => {:content_type => "application/json"})
+          subject.send(method, '/core/projects').should be_an_instance_of RevRise::ArrayResponseWrapper
+        end
+
+      end
+    end
   end
 end

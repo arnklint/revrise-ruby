@@ -46,6 +46,18 @@ module RevRise
       }
     end
 
+    def put(path, body={}, options={})
+      handle_response {
+        self.class.put(*build_query(path, options.merge(:body => body), :body))
+      }
+    end
+
+    def post(path, body={}, options={})
+      handle_response {
+        self.class.post(*build_query(path, options.merge(:body => body), :body))
+      }
+    end
+
     def auth_token
       @options[:auth_token]
     end
