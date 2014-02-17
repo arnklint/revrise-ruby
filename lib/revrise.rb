@@ -3,11 +3,11 @@ require 'uri'
 require 'httparty'
 require 'hashie'
 
+require "revrise/version"
 require "revrise/client"
 require "revrise/errors"
 require "revrise/array_response_wrapper"
 require "revrise/hash_response_wrapper"
-require "revrise/version"
 
 module RevRise
   def new(options={})
